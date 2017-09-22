@@ -1,23 +1,24 @@
 function myFunction(e) {
   //var source = SpreadsheetApp.openById("xxxxxxxx");
-  var counter = 0;
+  var counter = 1;
   var destination = SpreadsheetApp.getActiveSpreadsheet();
-  var cell = destination.getcell(counter,0);
+  var sheet = destination.getSheetByName("List");
+  var range = sheet.getRange("A1:A1000");
+  var cell = range.getCell(counter,1);
   
   while (!cell.isBlank()) {
-    var stuName = cell.getvalue();
+    var stuName = cell.getValue();
     
     try { 
       var copySheet = destination.getSheetByName("Template");
-      copySheet.copyTo(destination).setName(stuName);
-      destination.setName(stuName);      
+      copySheet.copyTo(destination).setName(stuName);     
     } 
     catch(err){  
       SpreadsheetApp.flush(); 
     }
+    counter++;
+    cell = range.getCell(counter,1);
   }
-  counter++;
-  cell = destination.getCell(counter,0);
 }
 
 //destination.deleteActiveSheet(); 
